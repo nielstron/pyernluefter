@@ -11,10 +11,10 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 short_description = '{}'.format(
-    'Automated REST based communication with the Bayernluefter')
+    'Automated async web-based communication with the Bayernluefter')
 
 setup(
-    name='Pyernluefter',
+    name='pyernluefter',
     version='0.0.1',
     description=short_description,
     author='nielstron',
@@ -22,7 +22,7 @@ setup(
     url='https://github.com/nielstron/pyernluefter/',
     py_modules=['pyernluefter'],
     packages=find_packages(),
-    package_data={'pyernluefter.tests.test_structure': ['sws/app/information/home/home.json', '*.html']},
+    package_data={'pyernluefter.tests.test_structure': ['?export=1', '*.html', '*.txt']},
     install_requires=[
         'aiohttp',
         'parse',
@@ -38,8 +38,9 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
-    keywords='python syncthru json api samsung printer',
+    keywords='python api iot async bayernluft bayernluefter',
     python_requires='>=3',
     test_suite='pyernluefter.tests',
 )

@@ -1,0 +1,39 @@
+# MUSTER FÜR MASCHINENLESBAREN YAML-EXPORT
+
+# Das Format kann selbst angepasst werden,
+# so dass die Parameter von einem Smarthome-System
+# ausgelesen werden können.
+# Ein weiteres Template ist z.B. als XML verfügbar
+
+# Der Aufruf erfolgt z.B. durch:
+# http://192.168.178.137/?export=1
+
+
+Date: 03.05.2020
+Time: 20:56:38
+DeviceName: ECFABC0D5FE8
+MAC: A020A6132C01
+LocalIP: 192.168.178.101
+RSSI: -60
+FW_MainController: 1838000A
+FW_WiFi: WS181130
+SystemMode: Kellermode
+Speed_In: 01
+Speed_Out: 01
+Speed_AntiFreeze: 00
+Temp_In: 0,0
+Temp_Out: 18,6
+Temp_Fresh: 18,6
+rel_Humidity_In: 0,0
+rel_Humidity_Out: 77,7
+abs_Humidity_In: 0,0
+abs_Humidity_Out: 12,4
+Efficiency: N/A
+Humidity_Transport: -1485
+SystemOn = 1
+AntiFreeze = 0
+Fixed_Speed = 0
+Defrosting = 0
+Landlord_Mode = 0
+Cross_Ventilation = 0
+Timer_active = 0

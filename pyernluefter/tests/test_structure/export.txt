@@ -1,0 +1,39 @@
+# MUSTER FÜR MASCHINENLESBAREN YAML-EXPORT
+
+# Das Format kann selbst angepasst werden,
+# so dass die Parameter von einem Smarthome-System
+# ausgelesen werden können.
+# Ein weiteres Template ist z.B. als XML verfügbar
+
+# Der Aufruf erfolgt z.B. durch:
+# http://192.168.178.137/?export=1
+
+
+Date: ~Date~
+Time: ~Time~
+DeviceName: ~DeviceName~
+MAC: ~MAC~
+LocalIP: ~LocalIP~
+RSSI: ~RSSI~
+FW_MainController: ~FW_MainController~
+FW_WiFi: ~FW_WiFi~
+SystemMode: ~SystemMode~
+Speed_In: ~Speed_In~
+Speed_Out: ~Speed_Out~
+Speed_AntiFreeze: ~Speed_AntiFreeze~
+Temp_In: ~Temp_In~
+Temp_Out: ~Temp_Out~
+Temp_Fresh: ~Temp_Fresh~
+rel_Humidity_In: ~rel_Humidity_In~
+rel_Humidity_Out: ~rel_Humidity_Out~
+abs_Humidity_In: ~abs_Humidity_In~
+abs_Humidity_Out: ~abs_Humidity_Out~
+Efficiency: ~Efficiency~
+Humidity_Transport: ~Humidity_Transport~
+SystemOn = ~_SystemOn~
+AntiFreeze = ~_FrostschutzAktiv~
+Fixed_Speed = ~_Frozen~
+Defrosting = ~_AbtauMode~
+Landlord_Mode = ~_VermieterMode~
+Cross_Ventilation = ~_QuerlueftungAktiv~
+Timer_active = ~_MaxMode~

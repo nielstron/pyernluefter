@@ -9,8 +9,13 @@ from typing import Any, Dict
 
 from .convert import CONVERSION_DICT
 
-ENDPOINT = "?export=1"
-ENDPOINT_TEMPLATE = "export.txt"
+ENDPOINT_EXPORT = "?export=1"
+ENDPOINT_TEMPLATE = "/export.txt"
+ENDPOINT_POWER_ON = "?power=on"
+ENDPOINT_POWER_OFF = "?power=off"
+ENDPOINT_BUTTON_POWER = "?button=power"
+ENDPOINT_BUTTON_TIMER = "?button=timer"
+ENDPOINT_SPEED = "?speed={}"
 
 
 def repl_to_parse(m: re.Match):
@@ -41,16 +46,9 @@ class Bayernluefter:
         """
         Fetches the template for the export values from the Bayernluefter
         """
-        url = "{}/{}".format(self.url, ENDPOINT_TEMPLATE)
 
-        try:
-            async with self._session.get(url) as response:
-                if response.status != HTTPStatus.OK:
-                    raise ValueError("Server does not support Bayernluefter protocol.")
-                bl_template = await response.text(encoding="ascii", errors="ignore")
-            self.template = re.sub(r"~(.+)~", repl_to_parse, bl_template)
-        except aiohttp.ClientError:
-            raise ValueError("Could not reach the Bayernluefter")
+        bl_template = await self._request_bl(ENDPOINT_TEMPLATE)
+        self.template = re.sub(r"~(.+)~", repl_to_parse, bl_template)
 
     async def update(self) -> None:
         """
@@ -60,21 +58,23 @@ class Bayernluefter:
         if self.template is None:
             await self.fetch_template()
 
-        url = "{}{}".format(self.url, ENDPOINT)
+        state = await  self._request_bl(ENDPOINT_EXPORT)
+        parse_dict = parse.parse(self.template, state).named
+        self.data = {
+            key[1:]: value
+            for key, value in parse_dict.items()
+        }
+        self.data_converted = {
+            key: CONVERSION_DICT.get(key, str)(value) for key, value in self.data.items()
+        }
 
+    async def _request_bl(self, target):
+        url = "{}{}".format(self.url, target)
         try:
             async with self._session.get(url) as response:
                 if response.status != HTTPStatus.OK:
                     raise ValueError("Server does not support Bayernluefter protocol.")
-                state = await response.text(encoding="ascii", errors="ignore")
-            parse_dict = parse.parse(self.template, state).named
-            self.data = {
-                key[1:]: value
-                for key, value in parse_dict.items()
-            }
-            self.data_converted = {
-                key: CONVERSION_DICT.get(key, str)(value) for key, value in self.data.items()
-            }
+                return await response.text(encoding="ascii", errors="ignore")
         except aiohttp.ClientError:
             raise ValueError("Could not reach the Bayernluefter")
 
@@ -91,3 +91,22 @@ class Bayernluefter:
             return self.data_converted
         except (KeyError, AttributeError):
             return {}
+
+    async def power_on(self):
+        await self._request_bl(ENDPOINT_POWER_ON)
+
+    async def power_off(self):
+        await self._request_bl(ENDPOINT_POWER_OFF)
+
+    async def power_toggle(self):
+        await self._request_bl(ENDPOINT_BUTTON_POWER)
+
+    async def timer_toggle(self):
+        await self._request_bl(ENDPOINT_BUTTON_TIMER)
+
+    async def reset_speed(self):
+        await self._request_bl(ENDPOINT_SPEED.format(0))
+
+    async def set_speed(self, level:int):
+        assert 1 <= level <= 10, "Level must be between 1 and 10"
+        await self._request_bl(ENDPOINT_SPEED.format(level))

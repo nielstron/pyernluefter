@@ -6,15 +6,15 @@ import parse
 
 from typing import Any, Dict
 
-import datetime
+from .convert import CONVERSION_DICT
 
 ENDPOINT = "?export=1"
 ENDPOINT_TEMPLATE = "export.txt"
 
 
-
 def repl_to_parse(m: re.Match):
-    return "{{{}}}".format(m.group(1))
+    # prepend a v s.t. no variable begins with an underscore
+    return "{{v{}}}".format(m.group(1))
 
 
 def construct_url(ip_address: str) -> str:
@@ -34,6 +34,7 @@ class Bayernluefter:
         self.url = construct_url(ip)
         self._session = session
         self.data = {}  # type: Dict[str, Any]
+        self.data_converted = {}  # type: Dict[str, Any]
         self.template = None
 
     async def fetch_template(self):
@@ -59,7 +60,14 @@ class Bayernluefter:
         try:
             async with self._session.get(url) as response:
                 state = await response.text()
-            self.data = parse.parse(self.template, state)
+            parse_dict = parse.parse(self.template, state).named
+            self.data = {
+                key[1:]: value
+                for key, value in parse_dict.items()
+            }
+            self.data_converted = {
+                key: CONVERSION_DICT.get(key, str)(value) for key, value in self.data
+            }
         except aiohttp.ClientError:
             raise ValueError("Could not reach the Bayernluefter")
 
@@ -67,5 +75,12 @@ class Bayernluefter:
         """Return all details of the Bayernluefter."""
         try:
             return self.data
+        except (KeyError, AttributeError):
+            return {}
+
+    def raw_converted(self) -> Dict:
+        """Return all details of the Bayernluefter, converted"""
+        try:
+            return self.data_converted
         except (KeyError, AttributeError):
             return {}

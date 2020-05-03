@@ -1,18 +1,16 @@
 import os
-import urllib.parse
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 try:
     from http import HTTPStatus
 except ImportError:
     # Backwards compatability
     import http.client as HTTPStatus
-import posixpath
 from pathlib import Path
 
 SERVER_DIR = Path(__file__).parent or Path('.')
 
 
-class SyncThruServer(HTTPServer):
+class BayernLuftServer(HTTPServer):
 
     blocked = False
 
@@ -23,44 +21,25 @@ class SyncThruServer(HTTPServer):
         self.blocked = False
 
 
-class SyncThruRequestHandler(SimpleHTTPRequestHandler):
-    
+class BayernLuftHandler(SimpleHTTPRequestHandler):
+
     def do_GET(self):
         if self.server.blocked:
             self.send_error(403, "Access denied because server blocked")
         else:
-            super(SyncThruRequestHandler, self).do_GET()
-    
-    def translate_path(self, path):
-        """Translate a /-separated PATH to the local filename syntax.
+            super(BayernLuftHandler, self).do_GET()
 
-        Components that mean special things to the local file system
-        (e.g. drive or directory names) are ignored.  (XXX They should
-        probably be diagnosed.)
-
-        only slightly changed method of the standard library
+    def translate_path(self, path:str):
         """
-        # abandon query parameters
-        path = path.split('?', 1)[0]
-        path = path.split('#', 1)[0]
-        # Don't forget explicit trailing slash when normalizing. Issue17324
-        trailing_slash = path.rstrip().endswith('/')
-        try:
-            path = urllib.parse.unquote(path, errors='surrogatepass')
-        except UnicodeDecodeError:
-            path = urllib.parse.unquote(path)
-        path = posixpath.normpath(path)
-        words = path.split('/')
-        words = filter(None, words)
-        path = str(SERVER_DIR.absolute())
-        for word in words:
-            if os.path.dirname(word) or word in (os.curdir, os.pardir):
-                # Ignore components that are not a simple file/directory name
-                continue
-            path = os.path.join(path, word)
-        if trailing_slash:
-            path += '/'
-        return path
+        translate paths for the two files we provide
+        """
+        path = path.lstrip('/')
+        server_path = str(SERVER_DIR.absolute())
+        if path.endswith("?export=1") and (path.startswith("?") or path.startswith("index.html")):
+            return os.path.join(server_path, "?export=1")
+        elif path == "export.txt":
+            return os.path.join(server_path, "export.txt")
+        return os.path.join(server_path, "nothingtobefound")
 
     def send_error(self, code, message=None, explain=None):
         """

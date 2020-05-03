@@ -25,6 +25,7 @@ setup(
     package_data={'pyernluefter.tests.test_structure': ['sws/app/information/home/home.json', '*.html']},
     install_requires=[
         'aiohttp',
+        'parse',
     ],
     long_description=long_description,
     long_description_content_type='text/markdown',

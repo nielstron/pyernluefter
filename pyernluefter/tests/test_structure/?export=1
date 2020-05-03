@@ -1,9 +1,9 @@
-# MUSTER FÜR MASCHINENLESBAREN YAML-EXPORT
+# MUSTER Fï¿½R MASCHINENLESBAREN YAML-EXPORT
 
 # Das Format kann selbst angepasst werden,
 # so dass die Parameter von einem Smarthome-System
-# ausgelesen werden können.
-# Ein weiteres Template ist z.B. als XML verfügbar
+# ausgelesen werden kï¿½nnen.
+# Ein weiteres Template ist z.B. als XML verfï¿½gbar
 
 # Der Aufruf erfolgt z.B. durch:
 # http://192.168.178.137/?export=1
@@ -11,9 +11,9 @@
 
 Date: 03.05.2020
 Time: 20:56:38
-DeviceName: ECFABC0D5FE8
-MAC: A020A6132C01
-LocalIP: 192.168.178.101
+DeviceName: ECFABC0D1111
+MAC: A020A6199C99
+LocalIP: 192.168.178.137
 RSSI: -60
 FW_MainController: 1838000A
 FW_WiFi: WS181130

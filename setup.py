@@ -15,7 +15,7 @@ short_description = '{}'.format(
 
 setup(
     name='pyernluefter',
-    version='0.0.3',
+    version='0.1.0',
     description=short_description,
     author='nielstron',
     author_email='n.muendler@web.de',

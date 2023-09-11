@@ -8,6 +8,7 @@ except ImportError:
 from pathlib import Path
 
 SERVER_DIR = Path(__file__).parent or Path('.')
+REVISIONS = ["rev1", "rev2"]
 
 
 class BayernLuftServer(HTTPServer):
@@ -23,6 +24,11 @@ class BayernLuftServer(HTTPServer):
 
 class BayernLuftHandler(SimpleHTTPRequestHandler):
 
+    def __init__(self, *args, revision: str, **kwargs):
+        assert revision in REVISIONS, f"Revision should be one of {REVISIONS}"
+        self.revision = revision
+        super(BayernLuftHandler, self).__init__(*args, **kwargs)
+
     def do_GET(self):
         if self.server.blocked:
             self.send_error(403, "Access denied because server blocked")
@@ -34,11 +40,11 @@ class BayernLuftHandler(SimpleHTTPRequestHandler):
         translate paths for the two files we provide
         """
         path = path.lstrip('/')
-        server_path = str(SERVER_DIR.absolute())
+        server_path = str(SERVER_DIR.joinpath(self.revision).absolute())
         if path.endswith("?export=1") and (path.startswith("?") or path.startswith("index.html")):
             return os.path.join(server_path, "?export=1")
         elif path == "export.txt":
-            return os.path.join(server_path, "export.txt")
+            return os.path.join(server_path, "rev1/export.txt")
         return os.path.join(server_path, "nothingtobefound")
 
     def send_error(self, code, message=None, explain=None):
@@ -63,7 +69,7 @@ class BayernLuftHandler(SimpleHTTPRequestHandler):
             # HTML encode to prevent Cross Site Scripting attacks
             # (see bug #1100201)
             # Specialized error method for fronius
-            with SERVER_DIR.joinpath(".error.html").open('rb') as file:
+            with SERVER_DIR.joinpath(self.revision).joinpath(".error.html").open('rb') as file:
                 body = file.read()
             self.send_header("Content-Type", self.error_content_type)
             self.send_header('Content-Length', int(len(body)))

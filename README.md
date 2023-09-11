@@ -1,8 +1,8 @@
 # Pyernluefter - a very basic python Bayernluefter bridge
 [![Build Status](https://travis-ci.com/nielstron/pyernluefter.svg?branch=master)](https://travis-ci.com/nielstron/pyernluefter)
 [![Coverage Status](https://coveralls.io/repos/github/nielstron/pyernluefter/badge.svg?branch=master)](https://coveralls.io/github/nielstron/pyernluefter?branch=master)
-[![Package Version](https://img.shields.io/pypi/v/pyernluefter)](https://pypi.org/project/PySyncThru/)
-[![Python Versions](https://img.shields.io/pypi/pyversions/pyernluefter.svg)](https://pypi.org/project/PySyncThru/)
+[![Package Version](https://img.shields.io/pypi/v/pyernluefter)](https://pypi.org/project/pyernluefter/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/pyernluefter.svg)](https://pypi.org/project/pyernluefter/)
 
 A package that connects to the Bayernluefter WiFi-Module.
 It controls the module via the simple web-based access provided by the Bayernluft software.

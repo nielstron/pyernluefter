@@ -1,7 +1,7 @@
 import datetime
 from ...convert import SystemMode
 
-RAW = {
+RAW_V1 = {
     "Date": "03.05.2020",
     "Time": "20:56:38",
     "DeviceName": "ECFABC0D1111",
@@ -32,7 +32,7 @@ RAW = {
     "_MaxMode": "0",
 }
 
-PROCESSED = {
+PROCESSED_V1 = {
     "Date": datetime.date(2020, 5, 3),
     "Time": datetime.time(20, 56, 38),
     "DeviceName": "ECFABC0D1111",
@@ -61,4 +61,54 @@ PROCESSED = {
     "_VermieterMode": True,
     "_QuerlueftungAktiv": True,
     "_MaxMode": True,
+}
+
+RAW_V2 = {
+    "Date": "11.09.2023",
+    "Time": "06:30:36",
+    "DeviceName": "3485185xxxxx",
+    "MAC": "000000000000",
+    "LocalIP": "192.168.0.0",
+    "RSSI": "-82",
+    "FW_MainController": "Rev2.1",
+    "FW_WiFi": "WS32233602",
+    "SystemMode": "Zeitgesteuert",
+    "_SystemOn": "0",
+    "Speed_In": "00",
+    "Speed_Out": "00",
+    "Speed_AntiFreeze": "00",
+    "Temp_In": "0,0",
+    "Temp_Out": "0,0",
+    "Temp_Fresh": "21,8",
+    "rel_Humidity_In": "0,0",
+    "rel_Humidity_Out": "0,0",
+    "abs_Humidity_In": "0,0",
+    "abs_Humidity_Out": "0,0",
+    "Efficiency": "N/A",
+    "Humidity_Transport": "0",
+}
+
+PROCESSED_V2 = {
+    "Date": datetime.date(2023, 9, 11),
+    "Time": datetime.time(6, 30, 36),
+    "DeviceName": "3485185xxxxx",
+    "MAC": hex(0x000000000000),
+    "LocalIP": "192.168.0.0",
+    "RSSI": -82,
+    "FW_MainController": "Rev2.1",
+    "FW_WiFi": "WS32233602",
+    "SystemMode": SystemMode.Zeitgesteuert,
+    "_SystemOn": False,
+    "Speed_In": 0,
+    "Speed_Out": 0,
+    "Speed_AntiFreeze": 0,
+    "Temp_In": 0.0,
+    "Temp_Out": 0.0,
+    "Temp_Fresh": 21.8,
+    "rel_Humidity_In": 0.0,
+    "rel_Humidity_Out": 0.0,
+    "abs_Humidity_In": 0.0,
+    "abs_Humidity_Out": 0.0,
+    "Efficiency": None,
+    "Humidity_Transport": 0,
 }

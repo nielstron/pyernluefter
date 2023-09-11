@@ -1,0 +1,33 @@
+# MUSTER FÜR MASCHINENLESBAREN YAML-EXPORT
+
+# Der Aufruf erfolgt durch:
+# http://Ihre-IP-Adresse/index.html?export=1
+
+# Das Format kann selbst angepasst werden, so dass die Parameter von einem Smarthome-System ausgelesen werden können.
+# Sie finden die export.txt im Experten-Browser, nach dem Anklicken vom Zahnrad im Live-Schema
+
+# Ein weiteres Template ist als XML verfügbar
+# Es kann hier heruntergeladen werden: www.bayernluft.de/de/download/export.txt
+
+Date: 11.09.2023
+Time: 06:30:36
+DeviceName: 3485185xxxxx
+MAC: 000000000000
+LocalIP: 192.168.0.0
+RSSI: -82
+FW_MainController: Rev2.1
+FW_WiFi: WS32233602
+SystemMode: Zeitgesteuert
+SystemOn: 0
+Speed_In: 00
+Speed_Out: 00
+Speed_AntiFreeze: 00
+Temp_In: 0,0
+Temp_Out: 0,0
+Temp_Fresh: 21,8
+rel_Humidity_In: 0,0
+rel_Humidity_Out: 0,0
+abs_Humidity_In: 0,0
+abs_Humidity_Out: 0,0
+Efficiency: N/A
+Humidity_Transport: 0

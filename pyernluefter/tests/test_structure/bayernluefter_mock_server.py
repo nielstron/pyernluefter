@@ -8,11 +8,17 @@ except ImportError:
 from pathlib import Path
 
 SERVER_DIR = Path(__file__).parent or Path('.')
+REVISIONS = ["rev1", "rev2"]
 
 
 class BayernLuftServer(HTTPServer):
 
     blocked = False
+
+    def __init__(self, revision: str, *args, **kwargs):
+        assert revision in REVISIONS, f"Revision should be one of {REVISIONS}"
+        self.revision = revision
+        super(BayernLuftServer, self).__init__(*args, **kwargs)
 
     def set_blocked(self):
         self.blocked = True
@@ -34,7 +40,7 @@ class BayernLuftHandler(SimpleHTTPRequestHandler):
         translate paths for the two files we provide
         """
         path = path.lstrip('/')
-        server_path = str(SERVER_DIR.absolute())
+        server_path = str(SERVER_DIR.joinpath(self.server.revision).absolute())
         if path.endswith("?export=1") and (path.startswith("?") or path.startswith("index.html")):
             return os.path.join(server_path, "?export=1")
         elif path == "export.txt":
@@ -63,10 +69,10 @@ class BayernLuftHandler(SimpleHTTPRequestHandler):
             # HTML encode to prevent Cross Site Scripting attacks
             # (see bug #1100201)
             # Specialized error method for fronius
-            with SERVER_DIR.joinpath(".error.html").open('rb') as file:
+            with SERVER_DIR.joinpath(self.server.revision).joinpath(".error.html").open('rb') as file:
                 body = file.read()
             self.send_header("Content-Type", self.error_content_type)
-            self.send_header('Content-Length', int(len(body)))
+            self.send_header('Content-Length', str(len(body)))
         self.end_headers()
 
         if self.command != 'HEAD' and body:

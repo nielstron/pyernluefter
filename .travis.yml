@@ -7,8 +7,9 @@ python:
 - '3.11'
 jobs:
   fast_finish: true
-dist: xenial
-sudo: true
+dist: bionic
+arch:
+  - arm64
 install:
 - pip install coverage
 - pip install coveralls

@@ -32,7 +32,7 @@ CONVERSION_DICT = {
     "abs_Humidity_Out": comma_float,
     "Efficiency": comma_float,
     "Humidity_Transport": int,
-    "_SystemOn": bool,
+    "_SystemOn": lambda x: x == "1",
     "_FrostschutzAktiv": bool,
     "_Frozen": bool,
     "_AbtauMode": bool,

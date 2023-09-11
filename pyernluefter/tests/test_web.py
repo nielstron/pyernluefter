@@ -138,7 +138,7 @@ class NonSyncthruWebTest(unittest.TestCase):
         while not self.server:
             try:
                 # Connect to any open port
-                self.server = BayernLuftServer((ADDRESS, 0), handler)
+                self.server = BayernLuftServer("rev1", (ADDRESS, 0), handler)
             except OSError:
                 if r < max_retries:
                     r += 1

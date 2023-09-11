@@ -1,13 +1,13 @@
-# MUSTER FÜR MASCHINENLESBAREN YAML-EXPORT
+# MUSTER FÃœR MASCHINENLESBAREN YAML-EXPORT
 
-# Das Format kann selbst angepasst werden,
-# so dass die Parameter von einem Smarthome-System
-# ausgelesen werden können.
-# Ein weiteres Template ist z.B. als XML verfügbar
+# Der Aufruf erfolgt durch:
+# http://Ihre-IP-Adresse/index.html?export=1
 
-# Der Aufruf erfolgt z.B. durch:
-# http://192.168.178.137/?export=1
+# Das Format kann selbst angepasst werden, so dass die Parameter von einem Smarthome-System ausgelesen werden kÃ¶nnen.
+# Sie finden die export.txt im Experten-Browser, nach dem Anklicken vom Zahnrad im Live-Schema
 
+# Ein weiteres Template ist als XML verfÃ¼gbar
+# Es kann hier heruntergeladen werden: www.bayernluft.de/de/download/export.txt
 
 Date: ~Date~
 Time: ~Time~
@@ -18,6 +18,7 @@ RSSI: ~RSSI~
 FW_MainController: ~FW_MainController~
 FW_WiFi: ~FW_WiFi~
 SystemMode: ~SystemMode~
+SystemOn: ~_SystemOn~
 Speed_In: ~Speed_In~
 Speed_Out: ~Speed_Out~
 Speed_AntiFreeze: ~Speed_AntiFreeze~
@@ -30,10 +31,3 @@ abs_Humidity_In: ~abs_Humidity_In~
 abs_Humidity_Out: ~abs_Humidity_Out~
 Efficiency: ~Efficiency~
 Humidity_Transport: ~Humidity_Transport~
-SystemOn = ~_SystemOn~
-AntiFreeze = ~_FrostschutzAktiv~
-Fixed_Speed = ~_Frozen~
-Defrosting = ~_AbtauMode~
-Landlord_Mode = ~_VermieterMode~
-Cross_Ventilation = ~_QuerlueftungAktiv~
-Timer_active = ~_MaxMode~

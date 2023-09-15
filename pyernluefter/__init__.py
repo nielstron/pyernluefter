@@ -70,27 +70,18 @@ class Bayernluefter:
 
     async def _request_bl(self, target):
         url = "{}{}".format(self.url, target)
-        try:
-            async with self._session.get(url) as response:
-                if response.status != HTTPStatus.OK:
-                    raise ValueError("Server does not support Bayernluefter protocol.")
-                return await response.text(encoding="ascii", errors="ignore")
-        except aiohttp.ClientError:
-            raise ValueError("Could not reach the Bayernluefter")
+        async with self._session.get(url) as response:
+            if response.status != HTTPStatus.OK:
+                raise ValueError("Server does not support Bayernluefter protocol.")
+            return await response.text(encoding="ascii", errors="ignore")
 
     def raw(self) -> Dict:
         """Return all details of the Bayernluefter."""
-        try:
-            return self.data
-        except (KeyError, AttributeError):
-            return {}
+        return self.data
 
     def raw_converted(self) -> Dict:
         """Return all details of the Bayernluefter, converted"""
-        try:
-            return self.data_converted
-        except (KeyError, AttributeError):
-            return {}
+        return self.data_converted
 
     async def power_on(self):
         await self._request_bl(ENDPOINT_POWER_ON)

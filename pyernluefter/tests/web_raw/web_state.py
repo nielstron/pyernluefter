@@ -55,12 +55,12 @@ PROCESSED_V1 = {
     "Efficiency": None,
     "Humidity_Transport": -1485,
     "_SystemOn": True,
-    "_FrostschutzAktiv": True,
-    "_Frozen": True,
-    "_AbtauMode": True,
-    "_VermieterMode": True,
-    "_QuerlueftungAktiv": True,
-    "_MaxMode": True,
+    "_FrostschutzAktiv": False,
+    "_Frozen": False,
+    "_AbtauMode": False,
+    "_VermieterMode": False,
+    "_QuerlueftungAktiv": False,
+    "_MaxMode": False,
 }
 
 RAW_V2 = {

@@ -14,6 +14,10 @@ def comma_float(x:str):
     return float(x.replace(",", "."))
 
 
+def custom_bool(x:str):
+    return x == "1"
+
+
 CONVERSION_DICT = {
     "Date": lambda x: datetime.strptime(x, "%d.%m.%Y").date(),
     "Time": lambda x: datetime.strptime(x, "%H:%M:%S").time(),
@@ -32,11 +36,11 @@ CONVERSION_DICT = {
     "abs_Humidity_Out": comma_float,
     "Efficiency": comma_float,
     "Humidity_Transport": int,
-    "_SystemOn": lambda x: x == "1",
-    "_FrostschutzAktiv": lambda x: x == "1",
-    "_Frozen": lambda x: x == "1",
-    "_AbtauMode": lambda x: x == "1",
-    "_VermieterMode": lambda x: x == "1",
-    "_QuerlueftungAktiv": lambda x: x == "1",
-    "_MaxMode": lambda x: x == "1",
+    "_SystemOn": custom_bool,
+    "_FrostschutzAktiv": custom_bool,
+    "_Frozen": custom_bool,
+    "_AbtauMode": custom_bool,
+    "_VermieterMode": custom_bool,
+    "_QuerlueftungAktiv": custom_bool,
+    "_MaxMode": custom_bool,
 }

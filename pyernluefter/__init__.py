@@ -4,6 +4,7 @@ import aiohttp
 import re
 import parse
 from http import HTTPStatus
+from enum import Enum
 
 from typing import Any, Dict
 
@@ -16,6 +17,16 @@ ENDPOINT_POWER_OFF = "?power=off"
 ENDPOINT_BUTTON_POWER = "?button=power"
 ENDPOINT_BUTTON_TIMER = "?button=timer"
 ENDPOINT_SPEED = "?speed={}"
+ENDPOINT_UPDATE_CHECK = "?updatecheck=1"
+
+SERVER_URL = "https://www.bayernluft.de"
+
+class UpdateTarget(Enum):
+    WLAN32 = "wlan32"
+
+RELEASE_URL = {
+    UpdateTarget.WLAN32: f"{SERVER_URL}/de/wlan32_changelist.html"
+}
 
 
 def repl_to_parse(m: re.Match):
@@ -41,6 +52,7 @@ class Bayernluefter:
         self.data = {}  # type: Dict[str, Any]
         self.data_converted = {}  # type: Dict[str, Any]
         self.template = None
+        self._latest_version = {}
 
     async def fetch_template(self):
         """
@@ -101,3 +113,32 @@ class Bayernluefter:
     async def set_speed(self, level:int):
         assert 1 <= level <= 10, "Level must be between 1 and 10"
         await self._request_bl(ENDPOINT_SPEED.format(level))
+
+    async def update_check(self, target: UpdateTarget):
+        await self._request_bl(ENDPOINT_UPDATE_CHECK)
+
+    async def poll_latest_versions(self):
+        for target in UpdateTarget:
+            await self.poll_latest_version(target)
+
+    async def poll_latest_version(self, target: UpdateTarget):
+        """Fetch latest version from Bayernluft server"""
+        self._latest_version.pop(target, None)
+
+        url = f"{SERVER_URL}/de/download/{target.value}/version.txt"
+        async with self._session.get(url) as response:
+            response.raise_for_status()
+            self._latest_version[target] = await response.text(encoding="ascii", errors="ignore")
+
+    def latest_version(self, target: UpdateTarget) -> str:
+        return self._latest_version.get(target)
+
+    def installed_version(self, target: UpdateTarget) -> str:
+        if target == UpdateTarget.WLAN32:
+            return self.data.get("FW_WiFi")
+
+        return None
+
+    def release_url(self, target: UpdateTarget) -> str:
+        return RELEASE_URL.get(target)
+

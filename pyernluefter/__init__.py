@@ -63,15 +63,17 @@ class Bayernluefter:
         self.template = re.sub(r"~(.+)~", repl_to_parse, bl_template)
 
     async def update(self) -> None:
-        """
-        Retrieve the data from the printer.
-        Throws ValueError if host does not support SyncThru
-        """
         if self.template is None:
             await self.fetch_template()
 
         state = await  self._request_bl(ENDPOINT_EXPORT)
-        parse_dict = parse.parse(self.template, state).named
+        try:
+            parse_dict = parse.parse(self.template, state).named
+        except AttributeError:
+            # the template has been changed -> ignore this update
+            self.template = None
+            return
+        
         self.data = {
             key[1:]: value
             for key, value in parse_dict.items()

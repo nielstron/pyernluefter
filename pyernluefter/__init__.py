@@ -31,13 +31,13 @@ RELEASE_URL = {
 
 def repl_to_parse(m: re.Match):
     # prepend a v s.t. no variable begins with an underscore
-    return "{{v{}}}".format(m.group(1))
+    return f"{{v{m.group(1)}}}"
 
 
 def construct_url(ip_address: str) -> str:
     """Construct the URL with a given IP address."""
     if "http://" not in ip_address and "https://" not in ip_address:
-        ip_address = "{}{}".format("http://", ip_address)
+        ip_address = f"http://{ip_address}"
     ip_address = ip_address.rstrip("/")
     return ip_address
 
@@ -81,7 +81,7 @@ class Bayernluefter:
         }
 
     async def _request_bl(self, target):
-        url = "{}{}".format(self.url, target)
+        url = f"{self.url}{target}"
         async with self._session.get(url) as response:
             if response.status != HTTPStatus.OK:
                 raise ValueError("Server does not support Bayernluefter protocol.")

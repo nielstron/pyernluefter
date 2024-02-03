@@ -9,6 +9,8 @@ It controls the module via the simple web-based access provided by the Bayernluf
 Any templates module should be supported as the tool first fetches the uploaded template and then parses
 the exported data based on the template.
 
+> This package is looking for a maintainer. I don't own a Bayernluefter anymore and can't test any changes. If you are interested in maintaining this package, please contact me.
+
 ## Usage
 
 ```python
